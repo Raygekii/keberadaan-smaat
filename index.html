@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smaat Smart Maklumat Mingguan</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body { background-color: #f8f9fa; font-size: 16px; }
+    .container { max-width: 100%; padding-left: 15px; padding-right: 15px; }
+    .app-header {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      border-radius: 12px;
+      padding: 25px 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    .calendar-card { cursor: pointer; transition: all 0.2s; border: 2px solid #dee2e6; background: #fff; border-radius: 10px; padding: 12px 6px; text-align: center; }
+    .calendar-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .calendar-card.selected { border-color: #0d6efd; background-color: #f0f4ff; }
+    .calendar-card .day-name { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #495057; }
+    .calendar-card .day-date { font-size: 16px; font-weight: bold; color: #212529; margin-top: 2px; }
+    .card { border-radius: 12px; border: none; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .card-header { font-size: 16px; font-weight: bold; padding: 12px 16px; border-radius: 12px 12px 0 0 !important; }
+    .btn { font-size: 15px; padding: 10px 16px; border-radius: 8px; font-weight: 600; }
+    .form-control, .form-select { font-size: 16px; padding: 12px 14px; border-radius: 8px; }
+    .nav-pills .nav-link { font-size: 16px; padding: 12px 20px; font-weight: bold; }
+    table th, table td { font-size: 15px; padding: 12px !important; }
+  </style>
+</head>
+<body>
+  <div class="container py-4">
+    <header class="app-header">
+      <h2 class="fw-bold mb-1 text-white" style="font-size: 1.8rem;">Smaat Smart Maklumat Mingguan</h2>
+      <p class="text-light mb-0" style="font-size: 15px; opacity: 0.9;">Sistem Pengurusan Keberadaan, Aktiviti & Booking Bilik Khas</p>
+    </header>
+
+    <ul class="nav nav-pills nav-fill mb-4 bg-white p-2 rounded shadow-sm" id="mainTab" role="tablist">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#dailyViewTab" type="button"><i class="fa-solid fa-calendar-day me-2"></i> Paparan Harian & Kalendar</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#reportTab" type="button" onclick="loadWeeklyReport()"><i class="fa-solid fa-file-lines me-2"></i> Laporan Mingguan</button>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="dailyViewTab">
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <span class="fs-5"><i class="fa-solid fa-calendar-days me-2"></i>Pilih Tarikh</span>
+            <div class="btn-group">
+              <button class="btn btn-sm btn-light" onclick="changeWeek(-1)"><i class="fa-solid fa-chevron-left"></i> Minggu Lepas</button>
+              <button class="btn btn-sm btn-light px-3" onclick="setToday()">Minggu Ini</button>
+              <button class="btn btn-sm btn-light" onclick="changeWeek(1)">Minggu Depan <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="weekDaysContainer" class="row row-cols-7 g-2 text-center"></div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2 px-1">
+          <h4 id="selectedDateTitle" class="fw-bold text-secondary mb-0">Tarikh: ...</h4>
+          <div>
+            <button class="btn btn-success me-2 mb-2 mb-md-0" onclick="openKeberadaanModal()"><i class="fa-solid fa-user-plus me-1"></i> Masuk Keberadaan</button>
+            <button class="btn btn-info text-white me-2 mb-2 mb-md-0" onclick="openBookingModal()"><i class="fa-solid fa-door-open me-1"></i> Booking Bilik</button>
+            <button class="btn btn-warning text-dark mb-2 mb-md-0" onclick="openAktivitiModal()"><i class="fa-solid fa-calendar-plus me-1"></i> Masuk Aktiviti</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm h-100">
+              <div class="card-header bg-success text-white">Senarai Keberadaan Guru</div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-striped mb-0 align-middle">
+                    <thead><tr><th>Guru</th><th>Perkara</th><th>Masa / Tempat</th><th>Catatan</th></tr></thead>
+                    <tbody id="keberadaanTableBody"><tr><td colspan="4" class="text-center py-4 text-muted">Tiada rekod keberadaan.</td></tr></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm h-100">
+              <div class="card-header bg-info text-white">Senarai Booking Bilik Khas</div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-striped mb-0 align-middle">
+                    <thead><tr><th>Bilik</th><th>Guru</th><th>Masa</th><th>Kelas</th></tr></thead>
+                    <tbody id="bookingTableBody"><tr><td colspan="4" class="text-center py-4 text-muted">Tiada rekod booking.</td></tr></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-warning text-dark"><i class="fa-solid fa-calendar-days me-2"></i>Senarai Aktiviti Sekolah Pada Tarikh Terpilih</div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-striped mb-0 align-middle">
+                <thead><tr><th>Masa</th><th>Aktiviti</th><th>Tempat</th><th>Unit / Penganjur</th><th>PIC</th><th>Catatan</th></tr></thead>
+                <tbody id="aktivitiTableBody"><tr><td colspan="6" class="text-center py-4 text-muted">Tiada rekod aktiviti.</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="reportTab">
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Laporan Mingguan Keberadaan Guru (Isnin - Jumaat)</h5>
+            <button class="btn btn-sm btn-outline-light px-3" onclick="loadWeeklyReport()"><i class="fa-solid fa-rotate me-1"></i> Muat Semula</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped align-middle">
+                <thead class="table-secondary"><tr><th>Tarikh</th><th>Guru</th><th>Perkara</th><th>Masa</th><th>Tempat</th><th>Catatan</th></tr></thead>
+                <tbody id="weeklyReportTableBody"><tr><td colspan="6" class="text-center py-4 text-muted">Sila muat semula laporan.</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0">Laporan Mingguan Aktiviti Sekolah (Isnin - Jumaat)</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped align-middle">
+                <thead class="table-secondary"><tr><th>Tarikh</th><th>Masa</th><th>Aktiviti</th><th>Tempat</th><th>Unit/Penganjur</th><th>PIC</th><th>Catatan</th></tr></thead>
+                <tbody id="weeklyAktivitiTableBody"><tr><td colspan="7" class="text-center py-4 text-muted">Sila muat semula laporan.</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALS -->
+  <div class="modal fade" id="keberadaanModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title">Masuk Keberadaan Guru</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="formKeberadaan" onsubmit="submitKeberadaan(event)">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Nama Guru</label>
+              <select class="form-select" id="k_guru" required>
+                <option value="" selected disabled>-- Pilih Nama Guru --</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Perkara / Jenis</label>
+              <input type="text" class="form-control" id="k_perkara" required placeholder="Contoh: Kursus / CRK / Tugas Rasmi">
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Masa</label><input type="text" class="form-control" id="k_masa" placeholder="8:00 AM - 12:00 PM"></div>
+              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Tempat</label><input type="text" class="form-control" id="k_tempat" placeholder="PPD Muar"></div>
+            </div>
+            <div class="mb-4"><label class="form-label fw-bold">Catatan</label><input type="text" class="form-control" id="k_catatan"></div>
+            <div class="text-end">
+              <button type="button" class="btn btn-secondary me-2 px-4" data-bs-dismiss="modal">Batal</button>
+              <button type="submit" class="btn btn-success px-4">Simpan Keberadaan</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="bookingModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title">Booking Bilik Khas</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="formBooking" onsubmit="submitBooking(event)">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Pilih Bilik</label>
+              <select class="form-select" id="b_bilik" required>
+                <option value="" selected disabled>-- Pilih Bilik Khas --</option>
+                <option value="Perpustakaan">Perpustakaan</option>
+                <option value="Bilik Tayang">Bilik Tayang</option>
+                <option value="Bilik ICT">Bilik ICT</option>
+                <option value="Bilik Sains">Bilik Sains</option>
+                <option value="Dewan Musolla">Dewan Musolla</option>
+                <option value="War Room">War Room</option>
+                <option value="Bilik Seminar">Bilik Seminar</option>
+                <option value="Bilik Mesyuarat">Bilik Mesyuarat</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Nama Guru / Pemohon</label>
+              <select class="form-select" id="b_guru" required>
+                <option value="" selected disabled>-- Pilih Nama Guru --</option>
+              </select>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Masa</label><input type="text" class="form-control" id="b_masa" placeholder="7:30–8:30"></div>
+              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Kelas / Aktiviti</label><input type="text" class="form-control" id="b_kelas" placeholder="5 Beta"></div>
+            </div>
+            <div class="text-end mt-3">
+              <button type="button" class="btn btn-secondary me-2 px-4" data-bs-dismiss="modal">Batal</button>
+              <button type="submit" class="btn btn-info text-white px-4">Simpan Booking</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="aktivitiModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title">Masuk Aktiviti Sekolah</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="formAktiviti" onsubmit="submitAktiviti(event)">
+            <div class="mb-3"><label class="form-label fw-bold">Nama Aktiviti</label><input type="text" class="form-control" id="a_aktiviti" required></div>
+            <div class="row">
+              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Masa</label><input type="text" class="form-control" id="a_masa"></div>
+              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Tempat</label><input type="text" class="form-control" id="a_tempat"></div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Unit / Penganjur</label><input type="text" class="form-control" id="a_unit"></div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">PIC</label>
+                <select class="form-select" id="a_pic" required>
+                  <option value="" selected disabled>-- Pilih Nama PIC --</option>
+                </select>
+              </div>
+            </div>
+            <div class="mb-4"><label class="form-label fw-bold">Catatan</label><input type="text" class="form-control" id="a_catatan"></div>
+            <div class="text-end">
+              <button type="button" class="btn btn-secondary me-2 px-4" data-bs-dismiss="modal">Batal</button>
+              <button type="submit" class="btn btn-warning text-dark px-4 fw-bold">Simpan Aktiviti</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // PASTE YOUR GAS WEB APP URL HERE AFTER DEPLOYING CODE.GS
+    const GAS_URL = "YOUR_GAS_WEB_APP_URL_HERE";
+
+    const GURU_LIST = [
+      "ISMAIL BIN JAIS",
+      "MAHYUDDIN BIN SAIDIN",
+      "MOHD HASHIM BIN ALI",
+      "WAN MOHAMAD BIN WAN ALI",
+      "MOHAMMAD ADHA BIN JAMALULAIL",
+      "MOHD FAIZAL BIN SARIP",
+      "MOHD QISTAS BIN SAJA’@MEARAJ",
+      "MUHAMMAD FIRDAUS HADI BIN FADZILAH SHAHIMI",
+      "MOHAMAD FAIZAL BIN AHMAD MAIDIN",
+      "RU’ASHIQIN BT IBRAHIM",
+      "SITI RAFIDAH BT DAHURI",
+      "SITI FARHA BT ABU BAKAR",
+      "NUR AZMAHANI BT OTHMAN",
+      "AZIZAH BT HJ SUKARMAN",
+      "HAMIDAH BT MOHD NASHIR",
+      "NORAIN BT MAHPOF",
+      "SURYATI BT AB RAZAK",
+      "NUR FATIHAH BT NORDIN",
+      "AISYAH BT TAIB",
+      "TENGKU ALIA HANISAH BT TENGKU ISA",
+      "NOR HALIMAH BT HJ SUKARMAN",
+      "NUR HIDAYAH BT TASLIM",
+      "SITI MAIDURA BT JAFFAR",
+      "SITI MAIMUNAH BT MISMAN",
+      "NURUL AMIRA BT ZAINAL BIDIN",
+      "NURUL AIN BT AZMAN"
+    ];
+
+    let currentDate = new Date();
+    let currentMonday = new Date();
+
+    window.onload = function() {
+      populateDropdowns();
+      setMondayFromDate(currentDate);
+      renderWeekCalendar();
+      loadDayData();
+    };
+
+    function populateDropdowns() {
+      let selects = ['k_guru', 'b_guru', 'a_pic'];
+      selects.forEach(id => {
+        let el = document.getElementById(id);
+        if (el) {
+          let defaultOpt = el.innerHTML;
+          el.innerHTML = defaultOpt;
+          GURU_LIST.forEach(guru => {
+            let opt = document.createElement('option');
+            opt.value = guru;
+            opt.textContent = guru;
+            el.appendChild(opt);
+          });
+        }
+      });
+    }
+
+    function setToday() {
+      currentDate = new Date();
+      setMondayFromDate(currentDate);
+      renderWeekCalendar();
+      loadDayData();
+    }
+
+    function changeWeek(direction) {
+      currentMonday.setDate(currentMonday.getDate() + (direction * 7));
+      currentDate = new Date(currentMonday);
+      renderWeekCalendar();
+      loadDayData();
+    }
+
+    function setMondayFromDate(d) {
+      let day = d.getDay();
+      let diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      currentMonday = new Date(d.setDate(diff));
+    }
+
+    function formatDateStr(d) {
+      let year = d.getFullYear();
+      let month = ('0' + (d.getMonth() + 1)).slice(-2);
+      let day = ('0' + d.getDate()).slice(-2);
+      return year + '-' + month + '-' + day;
+    }
+
+    function renderWeekCalendar() {
+      let container = document.getElementById('weekDaysContainer');
+      container.innerHTML = '';
+      let tempD = new Date(currentMonday);
+      let dayNames = ['Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu', 'Ahad'];
+
+      for (let i = 0; i < 7; i++) {
+        let dateStr = formatDateStr(tempD);
+        let isSelected = (dateStr === formatDateStr(currentDate));
+        let cardClass = isSelected ? 'col calendar-card selected shadow-sm' : 'col calendar-card';
+
+        container.innerHTML += `
+          <div class="${cardClass}" onclick="selectDate('${dateStr}')">
+            <div class="day-name">${dayNames[i]}</div>
+            <div class="day-date">${tempD.getDate()}/${tempD.getMonth() + 1}</div>
+          </div>
+        `;
+        tempD.setDate(tempD.getDate() + 1);
+      }
+    }
+
+    function selectDate(dateStr) {
+      let parts = dateStr.split('-');
+      currentDate = new Date(parts[0], parts[1] - 1, parts[2]);
+      renderWeekCalendar();
+      loadDayData();
+    }
+
+    function loadDayData() {
+      let dateStr = formatDateStr(currentDate);
+      document.getElementById('selectedDateTitle').innerText = `Tarikh: ${dateStr}`;
+
+      fetch(`${GAS_URL}?action=getDataByDate&date=${dateStr}`)
+        .then(res => res.json())
+        .then(res => {
+          if (!res) res = { keberadaan: [], booking: [], aktiviti: [] };
+
+          let kBody = document.getElementById('keberadaanTableBody');
+          kBody.innerHTML = '';
+          if (res.keberadaan.length === 0) {
+            kBody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-muted">Tiada rekod keberadaan.</td></tr>`;
+          } else {
+            res.keberadaan.forEach(item => {
+              kBody.innerHTML += `<tr><td class="fw-bold">${item.guru}</td><td><span class="badge bg-secondary">${item.perkara}</span></td><td>${item.masa || '-'}<br><small class="text-muted">${item.tempat || ''}</small></td><td>${item.catatan || '-'}</td></tr>`;
+            });
+          }
+
+          let bBody = document.getElementById('bookingTableBody');
+          bBody.innerHTML = '';
+          if (res.booking.length === 0) {
+            bBody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-muted">Tiada rekod booking.</td></tr>`;
+          } else {
+            res.booking.forEach(item => {
+              bBody.innerHTML += `<tr><td class="fw-bold text-primary">${item.bilik}</td><td>${item.guru}</td><td>${item.masa || '-'}</td><td>${item.kelas || '-'}</td></tr>`;
+            });
+          }
+
+          let aBody = document.getElementById('aktivitiTableBody');
+          aBody.innerHTML = '';
+          if (res.aktiviti.length === 0) {
+            aBody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Tiada rekod aktiviti.</td></tr>`;
+          } else {
+            res.aktiviti.forEach(item => {
+              aBody.innerHTML += `<tr><td>${item.masa || '-'}</td><td class="fw-bold">${item.aktiviti}</td><td>${item.tempat || '-'}</td><td>${item.unit || '-'}</td><td>${item.pic || '-'}</td><td>${item.catatan || '-'}</td></tr>`;
+            });
+          }
+        })
+        .catch(err => console.error('Error loading day data:', err));
+    }
+
+    function openKeberadaanModal() { document.getElementById('formKeberadaan').reset(); new bootstrap.Modal(document.getElementById('keberadaanModal')).show(); }
+    function openBookingModal() { document.getElementById('formBooking').reset(); new bootstrap.Modal(document.getElementById('bookingModal')).show(); }
+    function openAktivitiModal() { document.getElementById('formAktiviti').reset(); new bootstrap.Modal(document.getElementById('aktivitiModal')).show(); }
+
+    function submitKeberadaan(e) {
+      e.preventDefault();
+      let payload = {
+        action: 'saveKeberadaan',
+        date: formatDateStr(currentDate),
+        guru: document.getElementById('k_guru').value,
+        perkara: document.getElementById('k_perkara').value,
+        masa: document.getElementById('k_masa').value,
+        tempat: document.getElementById('k_tempat').value,
+        catatan: document.getElementById('k_catatan').value
+      };
+
+      fetch(GAS_URL, { method: 'POST', body: JSON.stringify(payload) })
+        .then(res => res.json())
+        .then(res => {
+          if (res.success) {
+            bootstrap.Modal.getInstance(document.getElementById('keberadaanModal')).hide();
+            loadDayData();
+          }
+        })
+        .catch(err => console.error('Error:', err));
+    }
+
+    function submitBooking(e) {
+      e.preventDefault();
+      let payload = {
+        action: 'saveBooking',
+        date: formatDateStr(currentDate),
+        bilik: document.getElementById('b_bilik').value,
+        guru: document.getElementById('b_guru').value,
+        masa: document.getElementById('b_masa').value,
+        kelas: document.getElementById('b_kelas').value
+      };
+
+      fetch(GAS_URL, { method: 'POST', body: JSON.stringify(payload) })
+        .then(res => res.json())
+        .then(res => {
+          if (res.success) {
+            bootstrap.Modal.getInstance(document.getElementById('bookingModal')).hide();
+            loadDayData();
+          }
+        })
+        .catch(err => console.error('Error:', err));
+    }
+
+    function submitAktiviti(e) {
+      e.preventDefault();
+      let payload = {
+        action: 'saveAktiviti',
+        date: formatDateStr(currentDate),
+        aktiviti: document.getElementById('a_aktiviti').value,
+        masa: document.getElementById('a_masa').value,
+        tempat: document.getElementById('a_tempat').value,
+        unit: document.getElementById('a_unit').value,
+        pic: document.getElementById('a_pic').value,
+        catatan: document.getElementById('a_catatan').value
+      };
+
+      fetch(GAS_URL, { method: 'POST', body: JSON.stringify(payload) })
+        .then(res => res.json())
+        .then(res => {
+          if (res.success) {
+            bootstrap.Modal.getInstance(document.getElementById('aktivitiModal')).hide();
+            loadDayData();
+          }
+        })
+        .catch(err => console.error('Error:', err));
+    }
+
+    function loadWeeklyReport() {
+      let mondayStr = formatDateStr(currentMonday);
+
+      fetch(`${GAS_URL}?action=getWeeklyReport&monday=${mondayStr}`)
+        .then(res => res.json())
+        .then(data => {
+          let rBody = document.getElementById('weeklyReportTableBody');
+          rBody.innerHTML = '';
+          if (!data || data.length === 0) {
+            rBody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Tiada rekod keberadaan mingguan.</td></tr>`;
+          } else {
+            data.forEach(item => {
+              rBody.innerHTML += `<tr><td>${item.date}</td><td class="fw-bold">${item.guru}</td><td><span class="badge bg-secondary">${item.perkara}</span></td><td>${item.masa || '-'}</td><td>${item.tempat || '-'}</td><td>${item.catatan || '-'}</td></tr>`;
+            });
+          }
+        });
+
+      fetch(`${GAS_URL}?action=getWeeklyAktiviti&monday=${mondayStr}`)
+        .then(res => res.json())
+        .then(data => {
+          let aBody = document.getElementById('weeklyAktivitiTableBody');
+          aBody.innerHTML = '';
+          if (!data || data.length === 0) {
+            aBody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">Tiada rekod aktiviti mingguan.</td></tr>`;
+          } else {
+            data.forEach(item => {
+              aBody.innerHTML += `<tr><td>${item.date}</td><td>${item.masa || '-'}</td><td class="fw-bold">${item.aktiviti}</td><td>${item.tempat || '-'}</td><td>${item.unit || '-'}</td><td>${item.pic || '-'}</td><td>${item.catatan || '-'}</td></tr>`;
+            });
+          }
+        });
+    }
+  </script>
+</body>
+</html>
