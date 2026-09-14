@@ -1,0 +1,15 @@
+{
+  "name": "Smaat Smart Maklumat",
+  "short_name": "Smaat",
+  "start_url": "/keberadaan-smaat/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f2027",
+  "icons": [
+    {
+      "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgWvEHjWPiBrgSHYnv6dnFL0qj2NQuFGLEuYYNVP-hxUZ20P_60Kw0oQHDOCUQrJLitDIBA_jxhjsJEmEWUsPO9H6gZtE8s5krK5r8QWfEd2W7FIaKoh0f5itV-pDkEVB5ckkZsHZFenwg/s1600/smatanwiriah.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
