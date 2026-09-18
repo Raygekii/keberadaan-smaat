@@ -377,7 +377,7 @@
               kBody.innerHTML += `<tr>
                 <td class="fw-bold">${item.guru}</td>
                 <td><span class="badge bg-secondary">${item.perkara}</span></td>
-                <td>${item.masa \vert{}\vert{} '-'}<br><small class="text-muted">${item.tempat || ''}</small></td>
+                <td>${item.masa || '-'}<br><small class="text-muted">${item.tempat || ''}</small></td>
                 <td>${item.catatan || '-'}</td>
                 <td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData('Keberadaan', ${item.rowIndex})"><i class="fa-solid fa-trash"></i></button></td>
               </tr>`;
@@ -512,7 +512,7 @@
         .catch(err => console.error('Error:', err));
     }
 
-function loadWeeklyReport() {
+    function loadWeeklyReport() {
       let mondayStr = formatDateStr(currentMonday);
 
       fetch(`${GAS_URL}?action=getWeeklyReport&monday=${mondayStr}`)
