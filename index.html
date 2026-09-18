@@ -81,8 +81,8 @@
               <div class="card-body p-0">
                 <div class="table-responsive">
                   <table class="table table-striped mb-0 align-middle">
-                    <thead><tr><th>Guru</th><th>Perkara</th><th>Masa / Tempat</th><th>Catatan</th></tr></thead>
-                    <tbody id="keberadaanTableBody"><tr><td colspan="4" class="text-center py-4 text-muted">Tiada rekod keberadaan.</td></tr></tbody>
+                    <thead><tr><th>Guru</th><th>Perkara</th><th>Masa / Tempat</th><th>Catatan</th><th class="text-end">Tindakan</th></tr></thead>
+                    <tbody id="keberadaanTableBody"><tr><td colspan="5" class="text-center py-4 text-muted">Tiada rekod keberadaan.</td></tr></tbody>
                   </table>
                 </div>
               </div>
@@ -95,8 +95,8 @@
               <div class="card-body p-0">
                 <div class="table-responsive">
                   <table class="table table-striped mb-0 align-middle">
-                    <thead><tr><th>Bilik</th><th>Guru</th><th>Masa</th><th>Kelas</th></tr></thead>
-                    <tbody id="bookingTableBody"><tr><td colspan="4" class="text-center py-4 text-muted">Tiada rekod booking.</td></tr></tbody>
+                    <thead><tr><th>Bilik</th><th>Guru</th><th>Masa</th><th>Kelas</th><th class="text-end">Tindakan</th></tr></thead>
+                    <tbody id="bookingTableBody"><tr><td colspan="5" class="text-center py-4 text-muted">Tiada rekod booking.</td></tr></tbody>
                   </table>
                 </div>
               </div>
@@ -109,8 +109,8 @@
           <div class="card-body p-0">
             <div class="table-responsive">
               <table class="table table-striped mb-0 align-middle">
-                <thead><tr><th>Masa</th><th>Aktiviti</th><th>Tempat</th><th>Unit / Penganjur</th><th>PIC</th><th>Catatan</th></tr></thead>
-                <tbody id="aktivitiTableBody"><tr><td colspan="6" class="text-center py-4 text-muted">Tiada rekod aktiviti.</td></tr></tbody>
+                <thead><tr><th>Masa</th><th>Aktiviti</th><th>Tempat</th><th>Unit / Penganjur</th><th>PIC</th><th>Catatan</th><th class="text-end">Tindakan</th></tr></thead>
+                <tbody id="aktivitiTableBody"><tr><td colspan="7" class="text-center py-4 text-muted">Tiada rekod aktiviti.</td></tr></tbody>
               </table>
             </div>
           </div>
@@ -126,8 +126,8 @@
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered table-striped align-middle">
-                <thead class="table-secondary"><tr><th>Tarikh</th><th>Guru</th><th>Perkara</th><th>Masa</th><th>Tempat</th><th>Catatan</th></tr></thead>
-                <tbody id="weeklyReportTableBody"><tr><td colspan="6" class="text-center py-4 text-muted">Sila muat semula laporan.</td></tr></tbody>
+                <thead class="table-secondary"><tr><th>Tarikh</th><th>Guru</th><th>Perkara</th><th>Masa</th><th>Tempat</th><th>Catatan</th><th class="text-end">Tindakan</th></tr></thead>
+                <tbody id="weeklyReportTableBody"><tr><td colspan="7" class="text-center py-4 text-muted">Sila muat semula laporan.</td></tr></tbody>
               </table>
             </div>
           </div>
@@ -140,8 +140,8 @@
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered table-striped align-middle">
-                <thead class="table-secondary"><tr><th>Tarikh</th><th>Masa</th><th>Aktiviti</th><th>Tempat</th><th>Unit/Penganjur</th><th>PIC</th><th>Catatan</th></tr></thead>
-                <tbody id="weeklyAktivitiTableBody"><tr><td colspan="7" class="text-center py-4 text-muted">Sila muat semula laporan.</td></tr></tbody>
+                <thead class="table-secondary"><tr><th>Tarikh</th><th>Masa</th><th>Aktiviti</th><th>Tempat</th><th>Unit/Penganjur</th><th>PIC</th><th>Catatan</th><th class="text-end">Tindakan</th></tr></thead>
+                <tbody id="weeklyAktivitiTableBody"><tr><td colspan="8" class="text-center py-4 text-muted">Sila muat semula laporan.</td></tr></tbody>
               </table>
             </div>
           </div>
@@ -215,7 +215,7 @@
               </select>
             </div>
             <div class="row">
-              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Masa</label><input type="text" class="form-control" id="b_masa" placeholder="7:30–8:30"></div>
+              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Masa</label><input type="text" class="form-control" id="b_masa" placeholder="8:00 - 9:00" required></div>
               <div class="col-md-6 mb-3"><label class="form-label fw-bold">Kelas / Aktiviti</label><input type="text" class="form-control" id="b_kelas" placeholder="5 Bukhari / Ujian Lisan"></div>
             </div>
             <div class="text-end mt-3">
@@ -263,36 +263,18 @@
   </div>
 
   <script>
-    // PASTE YOUR GAS WEB APP URL HERE AFTER DEPLOYING CODE.GS
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbxISy3iXB_adgWoYlMplYU-IEWJibcz2_C1VnAGQC86hdW3Erai4KUJZm2wzzWSB-C6zQ/exec";
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbxmevj0D66nWnBo4igBFIuIqDb2hXSyoAgiedYfTMxIDI_DJru2Ua-I07iqr7uHcwqXcA/exec";
 
     const GURU_LIST = [
-      "ISMAIL BIN JAIS",
-      "MAHYUDDIN BIN SAIDIN",
-      "MOHD HASHIM BIN ALI",
-      "WAN MOHAMAD BIN WAN ALI",
-      "MOHAMMAD ADHA BIN JAMALULAIL",
-      "MOHD FAIZAL BIN SARIP",
-      "MOHD QISTAS BIN SAJA’@MEARAJ",
-      "MUHAMMAD FIRDAUS HADI BIN FADZILAH SHAHIMI",
-      "MOHAMAD FAIZAL BIN AHMAD MAIDIN",
-      "RU’ASHIQIN BT IBRAHIM",
-      "SITI RAFIDAH BT DAHURI",
-      "SITI FARHA BT ABU BAKAR",
-      "NUR AZMAHANI BT OTHMAN",
-      "AZIZAH BT HJ SUKARMAN",
-      "HAMIDAH BT MOHD NASHIR",
-      "NORAIN BT MAHPOF",
-      "SURYATI BT AB RAZAK",
-      "NUR FATIHAH BT NORDIN",
-      "AISYAH BT TAIB",
-      "TENGKU ALIA HANISAH BT TENGKU ISA",
-      "NOR HALIMAH BT HJ SUKARMAN",
-      "NUR HIDAYAH BT TASLIM",
-      "SITI MAIDURA BT JAFFAR",
-      "SITI MAIMUNAH BT MISMAN",
-      "NURUL AMIRA BT ZAINAL BIDIN",
-      "NURUL AIN BT AZMAN"
+      "ISMAIL BIN JAIS", "MAHYUDDIN BIN SAIDIN", "MOHD HASHIM BIN ALI",
+      "WAN MOHAMAD BIN WAN ALI", "MOHAMMAD ADHA BIN JAMALULAIL", "MOHD FAIZAL BIN SARIP",
+      "MOHD QISTAS BIN SAJA’@MEARAJ", "MUHAMMAD FIRDAUS HADI BIN FADZILAH SHAHIMI",
+      "MOHAMAD FAIZAL BIN AHMAD MAIDIN", "RU’ASHIQIN BT IBRAHIM", "SITI RAFIDAH BT DAHURI",
+      "SITI FARHA BT ABU BAKAR", "NUR AZMAHANI BT OTHMAN", "AZIZAH BT HJ SUKARMAN",
+      "HAMIDAH BT MOHD NASHIR", "NORAIN BT MAHPOF", "SURYATI BT AB RAZAK",
+      "NUR FATIHAH BT NORDIN", "AISYAH BT TAIB", "TENGKU ALIA HANISAH BT TENGKU ISA",
+      "NOR HALIMAH BT HJ SUKARMAN", "NUR HIDAYAH BT TASLIM", "SITI MAIDURA BT JAFFAR",
+      "SITI MAIMUNAH BT MISMAN", "NURUL AMIRA BT ZAINAL BIDIN", "NURUL AIN BT AZMAN"
     ];
 
     let currentDate = new Date();
@@ -389,34 +371,70 @@
           let kBody = document.getElementById('keberadaanTableBody');
           kBody.innerHTML = '';
           if (res.keberadaan.length === 0) {
-            kBody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-muted">Tiada rekod keberadaan.</td></tr>`;
+            kBody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-muted">Tiada rekod keberadaan.</td></tr>`;
           } else {
             res.keberadaan.forEach(item => {
-              kBody.innerHTML += `<tr><td class="fw-bold">${item.guru}</td><td><span class="badge bg-secondary">${item.perkara}</span></td><td>${item.masa || '-'}<br><small class="text-muted">${item.tempat || ''}</small></td><td>${item.catatan || '-'}</td></tr>`;
+              kBody.innerHTML += `<tr>
+                <td class="fw-bold">${item.guru}</td>
+                <td><span class="badge bg-secondary">${item.perkara}</span></td>
+                <td>${item.masa \vert{}\vert{} '-'}<br><small class="text-muted">${item.tempat || ''}</small></td>
+                <td>${item.catatan || '-'}</td>
+                <td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData('Keberadaan', ${item.rowIndex})"><i class="fa-solid fa-trash"></i></button></td>
+              </tr>`;
             });
           }
 
           let bBody = document.getElementById('bookingTableBody');
           bBody.innerHTML = '';
           if (res.booking.length === 0) {
-            bBody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-muted">Tiada rekod booking.</td></tr>`;
+            bBody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-muted">Tiada rekod booking.</td></tr>`;
           } else {
             res.booking.forEach(item => {
-              bBody.innerHTML += `<tr><td class="fw-bold text-primary">${item.bilik}</td><td>${item.guru}</td><td>${item.masa || '-'}</td><td>${item.kelas || '-'}</td></tr>`;
+              bBody.innerHTML += `<tr>
+                <td class="fw-bold text-primary">${item.bilik}</td>
+                <td>${item.guru}</td>
+                <td>${item.masa || '-'}</td>
+                <td>${item.kelas || '-'}</td>
+                <td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData('Booking', ${item.rowIndex})"><i class="fa-solid fa-trash"></i></button></td>
+              </tr>`;
             });
           }
 
           let aBody = document.getElementById('aktivitiTableBody');
           aBody.innerHTML = '';
           if (res.aktiviti.length === 0) {
-            aBody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Tiada rekod aktiviti.</td></tr>`;
+            aBody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">Tiada rekod aktiviti.</td></tr>`;
           } else {
             res.aktiviti.forEach(item => {
-              aBody.innerHTML += `<tr><td>${item.masa || '-'}</td><td class="fw-bold">${item.aktiviti}</td><td>${item.tempat || '-'}</td><td>${item.unit || '-'}</td><td>${item.pic || '-'}</td><td>${item.catatan || '-'}</td></tr>`;
+              aBody.innerHTML += `<tr>
+                <td>${item.masa || '-'}</td>
+                <td class="fw-bold">${item.aktiviti}</td>
+                <td>${item.tempat || '-'}</td>
+                <td>${item.unit || '-'}</td>
+                <td>${item.pic || '-'}</td>
+                <td>${item.catatan || '-'}</td>
+                <td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData('Aktiviti', ${item.rowIndex})"><i class="fa-solid fa-trash"></i></button></td>
+              </tr>`;
             });
           }
         })
         .catch(err => console.error('Error loading day data:', err));
+    }
+
+    function deleteRecordData(sheetName, rowIndex) {
+      if (!confirm("Adakah anda pasti mahu memadam rekod ini?")) return;
+
+      let payload = { action: 'deleteRecord', sheetName: sheetName, rowIndex: rowIndex };
+      fetch(GAS_URL, { method: 'POST', body: JSON.stringify(payload) })
+        .then(res => res.json())
+        .then(res => {
+          if (res.success) {
+            loadDayData();
+          } else {
+            alert("Gagal memadam rekod: " + (res.message || ''));
+          }
+        })
+        .catch(err => console.error('Error deleting:', err));
     }
 
     function openKeberadaanModal() { document.getElementById('formKeberadaan').reset(); new bootstrap.Modal(document.getElementById('keberadaanModal')).show(); }
@@ -463,6 +481,8 @@
           if (res.success) {
             bootstrap.Modal.getInstance(document.getElementById('bookingModal')).hide();
             loadDayData();
+          } else {
+            alert(res.message || "Gagal membuat booking.");
           }
         })
         .catch(err => console.error('Error:', err));
@@ -501,10 +521,18 @@
           let rBody = document.getElementById('weeklyReportTableBody');
           rBody.innerHTML = '';
           if (!data || data.length === 0) {
-            rBody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Tiada rekod keberadaan mingguan.</td></tr>`;
+            rBody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">Tiada rekod keberadaan mingguan.</td></tr>`;
           } else {
             data.forEach(item => {
-              rBody.innerHTML += `<tr><td>${item.date}</td><td class="fw-bold">${item.guru}</td><td><span class="badge bg-secondary">${item.perkara}</span></td><td>${item.masa || '-'}</td><td>${item.tempat || '-'}</td><td>${item.catatan || '-'}</td></tr>`;
+              rBody.innerHTML += `<tr>
+                <td>${item.date}</td>
+                <td class="fw-bold">${item.guru}</td>
+                <td><span class="badge bg-secondary">${item.perkara}</span></td>
+                <td>${item.masa || '-'}</td>
+                <td>${item.tempat || '-'}</td>
+                <td>${item.catatan || '-'}</td>
+                <td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData('Keberadaan', ${item.rowIndex})"><i class="fa-solid fa-trash"></i></button></td>
+              </tr>`;
             });
           }
         });
@@ -513,12 +541,21 @@
         .then(res => res.json())
         .then(data => {
           let aBody = document.getElementById('weeklyAktivitiTableBody');
-          aBody.innerHTML = '';
+          aBody.innerHTML = ``;
           if (!data || data.length === 0) {
-            aBody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">Tiada rekod aktiviti mingguan.</td></tr>`;
+            aBody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted">Tiada rekod aktiviti mingguan.</td></tr>`;
           } else {
             data.forEach(item => {
-              aBody.innerHTML += `<tr><td>${item.date}</td><td>${item.masa || '-'}</td><td class="fw-bold">${item.aktiviti}</td><td>${item.tempat || '-'}</td><td>${item.unit || '-'}</td><td>${item.pic || '-'}</td><td>${item.catatan || '-'}</td></tr>`;
+              aBody.innerHTML += `<tr>
+                <td>${item.date}</td>
+                <td>${item.masa || '-'}</td>
+                <td class="fw-bold">${item.aktiviti}</td>
+                <td>${item.tempat || '-'}</td>
+                <td>${item.unit || '-'}</td>
+                <td>${item.pic || '-'}</td>
+                <td>${item.catatan || '-'}</td>
+                <td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData('Aktiviti', ${item.rowIndex})"><i class="fa-solid fa-trash"></i></button></td>
+              </tr>`;
             });
           }
         });
