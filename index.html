@@ -161,20 +161,29 @@
         <div class="modal-body p-4">
           <form id="formKeberadaan" onsubmit="submitKeberadaan(event)">
             <div class="mb-3">
-              <label class="form-label fw-bold">Nama Guru</label>
+              <label for="k_guru" class="form-label fw-bold">Nama Guru</label>
               <select class="form-select" id="k_guru" required>
                 <option value="" selected disabled>-- Pilih Nama Guru --</option>
               </select>
             </div>
             <div class="mb-3">
-              <label class="form-label fw-bold">Perkara / Jenis</label>
+              <label for="k_perkara" class="form-label fw-bold">Perkara / Jenis</label>
               <input type="text" class="form-control" id="k_perkara" required placeholder="Contoh: Kursus / CRK / Tugas Rasmi">
             </div>
             <div class="row">
-              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Masa</label><input type="text" class="form-control" id="k_masa" placeholder="8:00 AM - 12:00 PM"></div>
-              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Tempat</label><input type="text" class="form-control" id="k_tempat" placeholder="PPD Muar"></div>
+              <div class="col-md-6 mb-3">
+                <label for="k_masa" class="form-label fw-bold">Masa</label>
+                <input type="text" class="form-control" id="k_masa" placeholder="8:00 AM - 12:00 PM">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="k_tempat" class="form-label fw-bold">Tempat</label>
+                <input type="text" class="form-control" id="k_tempat" placeholder="PPD Muar">
+              </div>
             </div>
-            <div class="mb-4"><label class="form-label fw-bold">Catatan</label><input type="text" class="form-control" id="k_catatan"></div>
+            <div class="mb-4">
+              <label for="k_catatan" class="form-label fw-bold">Catatan</label>
+              <input type="text" class="form-control" id="k_catatan">
+            </div>
             <div class="text-end">
               <button type="button" class="btn btn-secondary me-2 px-4" data-bs-dismiss="modal">Batal</button>
               <button type="submit" class="btn btn-success px-4">Simpan Keberadaan</button>
@@ -195,7 +204,7 @@
         <div class="modal-body p-4">
           <form id="formBooking" onsubmit="submitBooking(event)">
             <div class="mb-3">
-              <label class="form-label fw-bold">Pilih Bilik</label>
+              <label for="b_bilik" class="form-label fw-bold">Pilih Bilik</label>
               <select class="form-select" id="b_bilik" required>
                 <option value="" selected disabled>-- Pilih Bilik Khas --</option>
                 <option value="Perpustakaan">Perpustakaan</option>
@@ -209,14 +218,20 @@
               </select>
             </div>
             <div class="mb-3">
-              <label class="form-label fw-bold">Nama Guru / Pemohon</label>
+              <label for="b_guru" class="form-label fw-bold">Nama Guru / Pemohon</label>
               <select class="form-select" id="b_guru" required>
                 <option value="" selected disabled>-- Pilih Nama Guru --</option>
               </select>
             </div>
             <div class="row">
-              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Masa</label><input type="text" class="form-control" id="b_masa" placeholder="8:00 - 9:00" required></div>
-              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Kelas / Aktiviti</label><input type="text" class="form-control" id="b_kelas" placeholder="5 Bukhari / Ujian Lisan"></div>
+              <div class="col-md-6 mb-3">
+                <label for="b_masa" class="form-label fw-bold">Masa</label>
+                <input type="text" class="form-control" id="b_masa" placeholder="8:00 - 9:00" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="b_kelas" class="form-label fw-bold">Kelas / Aktiviti</label>
+                <input type="text" class="form-control" id="b_kelas" placeholder="5 Bukhari / Ujian Lisan">
+              </div>
             </div>
             <div class="text-end mt-3">
               <button type="button" class="btn btn-secondary me-2 px-4" data-bs-dismiss="modal">Batal</button>
@@ -237,21 +252,36 @@
         </div>
         <div class="modal-body p-4">
           <form id="formAktiviti" onsubmit="submitAktiviti(event)">
-            <div class="mb-3"><label class="form-label fw-bold">Nama Aktiviti</label><input type="text" class="form-control" id="a_aktiviti" required></div>
-            <div class="row">
-              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Masa</label><input type="text" class="form-control" id="a_masa"></div>
-              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Tempat</label><input type="text" class="form-control" id="a_tempat"></div>
+            <div class="mb-3">
+              <label for="a_aktiviti" class="form-label fw-bold">Nama Aktiviti</label>
+              <input type="text" class="form-control" id="a_aktiviti" required>
             </div>
             <div class="row">
-              <div class="col-md-6 mb-3"><label class="form-label fw-bold">Unit / Penganjur</label><input type="text" class="form-control" id="a_unit"></div>
               <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">PIC</label>
+                <label for="a_masa" class="form-label fw-bold">Masa</label>
+                <input type="text" class="form-control" id="a_masa">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="a_tempat" class="form-label fw-bold">Tempat</label>
+                <input type="text" class="form-control" id="a_tempat">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="a_unit" class="form-label fw-bold">Unit / Penganjur</label>
+                <input type="text" class="form-control" id="a_unit">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="a_pic" class="form-label fw-bold">PIC</label>
                 <select class="form-select" id="a_pic" required>
                   <option value="" selected disabled>-- Pilih Nama PIC --</option>
                 </select>
               </div>
             </div>
-            <div class="mb-4"><label class="form-label fw-bold">Catatan</label><input type="text" class="form-control" id="a_catatan"></div>
+            <div class="mb-4">
+              <label for="a_catatan" class="form-label fw-bold">Catatan</label>
+              <input type="text" class="form-control" id="a_catatan">
+            </div>
             <div class="text-end">
               <button type="button" class="btn btn-secondary me-2 px-4" data-bs-dismiss="modal">Batal</button>
               <button type="submit" class="btn btn-warning text-dark px-4 fw-bold">Simpan Aktiviti</button>
@@ -361,7 +391,7 @@
 
     function loadDayData() {
       let dateStr = formatDateStr(currentDate);
-      document.getElementById('selectedDateTitle').innerText = `Tarikh: ${dateStr}`;
+      document.getElementById('selectedDateTitle').innerText = 'Tarikh: ' + dateStr;
 
       fetch(`${GAS_URL}?action=getDataByDate&date=${dateStr}`)
         .then(res => res.json())
@@ -371,50 +401,53 @@
           let kBody = document.getElementById('keberadaanTableBody');
           kBody.innerHTML = '';
           if (res.keberadaan.length === 0) {
-            kBody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-muted">Tiada rekod keberadaan.</td></tr>`;
+            kBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">Tiada rekod keberadaan.</td></tr>';
           } else {
             res.keberadaan.forEach(item => {
-              kBody.innerHTML += `<tr>
-                <td class="fw-bold">${item.guru}</td>
-                <td><span class="badge bg-secondary">${item.perkara}</span></td>
-                <td>${item.masa || '-'}<br><small class="text-muted">${item.tempat || ''}</small></td>
-                <td>${item.catatan || '-'}</td>
-                <td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData('Keberadaan', ${item.rowIndex})"><i class="fa-solid fa-trash"></i></button></td>
-              </tr>`;
+              let row = document.createElement('tr');
+              row.innerHTML = 
+                '<td class="fw-bold">' + item.guru + '</td>' +
+                '<td><span class="badge bg-secondary">' + item.perkara + '</span></td>' +
+                '<td>' + (item.masa || '-') + '<br><small class="text-muted">' + (item.tempat || '') + '</small></td>' +
+                '<td>' + (item.catatan || '-') + '</td>' +
+                '<td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData(\'Keberadaan\', ' + item.rowIndex + ')"><i class="fa-solid fa-trash"></i></button></td>';
+              kBody.appendChild(row);
             });
           }
 
           let bBody = document.getElementById('bookingTableBody');
           bBody.innerHTML = '';
           if (res.booking.length === 0) {
-            bBody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-muted">Tiada rekod booking.</td></tr>`;
+            bBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">Tiada rekod booking.</td></tr>';
           } else {
             res.booking.forEach(item => {
-              bBody.innerHTML += `<tr>
-                <td class="fw-bold text-primary">${item.bilik}</td>
-                <td>${item.guru}</td>
-                <td>${item.masa || '-'}</td>
-                <td>${item.kelas || '-'}</td>
-                <td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData('Booking', ${item.rowIndex})"><i class="fa-solid fa-trash"></i></button></td>
-              </tr>`;
+              let row = document.createElement('tr');
+              row.innerHTML = 
+                '<td class="fw-bold text-primary">' + item.bilik + '</td>' +
+                '<td>' + item.guru + '</td>' +
+                '<td>' + (item.masa || '-') + '</td>' +
+                '<td>' + (item.kelas || '-') + '</td>' +
+                '<td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData(\'Booking\', ' + item.rowIndex + ')"><i class="fa-solid fa-trash"></i></button></td>';
+              bBody.appendChild(row);
             });
           }
 
           let aBody = document.getElementById('aktivitiTableBody');
           aBody.innerHTML = '';
           if (res.aktiviti.length === 0) {
-            aBody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">Tiada rekod aktiviti.</td></tr>`;
+            aBody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-muted">Tiada rekod aktiviti.</td></tr>';
           } else {
             res.aktiviti.forEach(item => {
-              aBody.innerHTML += `<tr>
-                <td>${item.masa || '-'}</td>
-                <td class="fw-bold">${item.aktiviti}</td>
-                <td>${item.tempat || '-'}</td>
-                <td>${item.unit || '-'}</td>
-                <td>${item.pic || '-'}</td>
-                <td>${item.catatan || '-'}</td>
-                <td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData('Aktiviti', ${item.rowIndex})"><i class="fa-solid fa-trash"></i></button></td>
-              </tr>`;
+              let row = document.createElement('tr');
+              row.innerHTML = 
+                '<td>' + (item.masa || '-') + '</td>' +
+                '<td class="fw-bold">' + item.aktiviti + '</td>' +
+                '<td>' + (item.tempat || '-') + '</td>' +
+                '<td>' + (item.unit || '-') + '</td>' +
+                '<td>' + (item.pic || '-') + '</td>' +
+                '<td>' + (item.catatan || '-') + '</td>' +
+                '<td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData(\'Aktiviti\', ' + item.rowIndex + ')"><i class="fa-solid fa-trash"></i></button></td>';
+              aBody.appendChild(row);
             });
           }
         })
