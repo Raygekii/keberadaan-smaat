@@ -172,13 +172,21 @@
             </div>
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="k_masa" class="form-label fw-bold">Masa</label>
-                <input type="text" class="form-control" id="k_masa" placeholder="8:00 AM - 12:00 PM">
+                <label for="k_masa_mula" class="form-label fw-bold">Masa Mula (From)</label>
+                <select class="form-select time-select" id="k_masa_mula">
+                  <option value="" selected disabled>-- Pilih Masa Mula --</option>
+                </select>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="k_tempat" class="form-label fw-bold">Tempat</label>
-                <input type="text" class="form-control" id="k_tempat" placeholder="PPD Muar">
+                <label for="k_masa_tamat" class="form-label fw-bold">Masa Tamat (To)</label>
+                <select class="form-select time-select" id="k_masa_tamat">
+                  <option value="" selected disabled>-- Pilih Masa Tamat --</option>
+                </select>
               </div>
+            </div>
+            <div class="mb-3">
+              <label for="k_tempat" class="form-label fw-bold">Tempat</label>
+              <input type="text" class="form-control" id="k_tempat" placeholder="PPD Muar">
             </div>
             <div class="mb-4">
               <label for="k_catatan" class="form-label fw-bold">Catatan</label>
@@ -225,13 +233,21 @@
             </div>
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="b_masa" class="form-label fw-bold">Masa</label>
-                <input type="text" class="form-control" id="b_masa" placeholder="8:00 - 9:00" required>
+                <label for="b_masa_mula" class="form-label fw-bold">Masa Mula (From)</label>
+                <select class="form-select time-select" id="b_masa_mula" required>
+                  <option value="" selected disabled>-- Pilih Masa Mula --</option>
+                </select>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="b_kelas" class="form-label fw-bold">Kelas / Aktiviti</label>
-                <input type="text" class="form-control" id="b_kelas" placeholder="5 Bukhari / Ujian Lisan">
+                <label for="b_masa_tamat" class="form-label fw-bold">Masa Tamat (To)</label>
+                <select class="form-select time-select" id="b_masa_tamat" required>
+                  <option value="" selected disabled>-- Pilih Masa Tamat --</option>
+                </select>
               </div>
+            </div>
+            <div class="mb-3">
+              <label for="b_kelas" class="form-label fw-bold">Kelas / Aktiviti</label>
+              <input type="text" class="form-control" id="b_kelas" placeholder="5 Bukhari / Ujian Lisan">
             </div>
             <div class="text-end mt-3">
               <button type="button" class="btn btn-secondary me-2 px-4" data-bs-dismiss="modal">Batal</button>
@@ -258,13 +274,21 @@
             </div>
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="a_masa" class="form-label fw-bold">Masa</label>
-                <input type="text" class="form-control" id="a_masa">
+                <label for="a_masa_mula" class="form-label fw-bold">Masa Mula (From)</label>
+                <select class="form-select time-select" id="a_masa_mula">
+                  <option value="" selected disabled>-- Pilih Masa Mula --</option>
+                </select>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="a_tempat" class="form-label fw-bold">Tempat</label>
-                <input type="text" class="form-control" id="a_tempat">
+                <label for="a_masa_tamat" class="form-label fw-bold">Masa Tamat (To)</label>
+                <select class="form-select time-select" id="a_masa_tamat">
+                  <option value="" selected disabled>-- Pilih Masa Tamat --</option>
+                </select>
               </div>
+            </div>
+            <div class="mb-3">
+              <label for="a_tempat" class="form-label fw-bold">Tempat</label>
+              <input type="text" class="form-control" id="a_tempat">
             </div>
             <div class="row">
               <div class="col-md-6 mb-3">
@@ -312,6 +336,7 @@
 
     window.onload = function() {
       populateDropdowns();
+      populateTimeDropdowns();
       setMondayFromDate(currentDate);
       renderWeekCalendar();
       loadDayData();
@@ -328,6 +353,39 @@
             let opt = document.createElement('option');
             opt.value = guru;
             opt.textContent = guru;
+            el.appendChild(opt);
+          });
+        }
+      });
+    }
+
+    function populateTimeDropdowns() {
+      let timeSlots = [];
+      // Generate 7:00 AM to 5:00 PM (17:00) with 30-min intervals
+      for (let h = 7; h <= 17; h++) {
+        let h12 = h > 12 ? h - 12 : h;
+        let ampm = h >= 12 ? 'PM' : 'AM';
+        timeSlots.push(h12 + '.00 ' + ampm);
+        if (h < 17) {
+          timeSlots.push(h12 + '.30 ' + ampm);
+        }
+      }
+
+      let timeSelectIds = [
+        'k_masa_mula', 'k_masa_tamat',
+        'b_masa_mula', 'b_masa_tamat',
+        'a_masa_mula', 'a_masa_tamat'
+      ];
+
+      timeSelectIds.forEach(id => {
+        let el = document.getElementById(id);
+        if (el) {
+          let defaultOpt = el.innerHTML;
+          el.innerHTML = defaultOpt;
+          timeSlots.forEach(time => {
+            let opt = document.createElement('option');
+            opt.value = time;
+            opt.textContent = time;
             el.appendChild(opt);
           });
         }
@@ -476,12 +534,16 @@
 
     function submitKeberadaan(e) {
       e.preventDefault();
+      let mula = document.getElementById('k_masa_mula').value;
+      let tamat = document.getElementById('k_masa_tamat').value;
+      let masaStr = (mula && tamat) ? mula + ' - ' + tamat : '';
+
       let payload = {
         action: 'saveKeberadaan',
         date: formatDateStr(currentDate),
         guru: document.getElementById('k_guru').value,
         perkara: document.getElementById('k_perkara').value,
-        masa: document.getElementById('k_masa').value,
+        masa: masaStr,
         tempat: document.getElementById('k_tempat').value,
         catatan: document.getElementById('k_catatan').value
       };
@@ -499,12 +561,16 @@
 
     function submitBooking(e) {
       e.preventDefault();
+      let mula = document.getElementById('b_masa_mula').value;
+      let tamat = document.getElementById('b_masa_tamat').value;
+      let masaStr = mula + ' - ' + tamat;
+
       let payload = {
         action: 'saveBooking',
         date: formatDateStr(currentDate),
         bilik: document.getElementById('b_bilik').value,
         guru: document.getElementById('b_guru').value,
-        masa: document.getElementById('b_masa').value,
+        masa: masaStr,
         kelas: document.getElementById('b_kelas').value
       };
 
@@ -523,11 +589,15 @@
 
     function submitAktiviti(e) {
       e.preventDefault();
+      let mula = document.getElementById('a_masa_mula').value;
+      let tamat = document.getElementById('a_masa_tamat').value;
+      let masaStr = (mula && tamat) ? mula + ' - ' + tamat : '';
+
       let payload = {
         action: 'saveAktiviti',
         date: formatDateStr(currentDate),
         aktiviti: document.getElementById('a_aktiviti').value,
-        masa: document.getElementById('a_masa').value,
+        masa: masaStr,
         tempat: document.getElementById('a_tempat').value,
         unit: document.getElementById('a_unit').value,
         pic: document.getElementById('a_pic').value,
