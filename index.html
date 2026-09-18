@@ -512,7 +512,7 @@
         .catch(err => console.error('Error:', err));
     }
 
-    function loadWeeklyReport() {
+function loadWeeklyReport() {
       let mondayStr = formatDateStr(currentMonday);
 
       fetch(`${GAS_URL}?action=getWeeklyReport&monday=${mondayStr}`)
@@ -541,7 +541,7 @@
         .then(res => res.json())
         .then(data => {
           let aBody = document.getElementById('weeklyAktivitiTableBody');
-          aBody.innerHTML = ``;
+          aBody.innerHTML = '';
           if (!data || data.length === 0) {
             aBody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted">Tiada rekod aktiviti mingguan.</td></tr>`;
           } else {
