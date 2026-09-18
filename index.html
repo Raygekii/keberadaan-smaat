@@ -521,18 +521,19 @@ function loadWeeklyReport() {
           let rBody = document.getElementById('weeklyReportTableBody');
           rBody.innerHTML = '';
           if (!data || data.length === 0) {
-            rBody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">Tiada rekod keberadaan mingguan.</td></tr>`;
+            rBody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-muted">Tiada rekod keberadaan mingguan.</td></tr>';
           } else {
             data.forEach(item => {
-              rBody.innerHTML += `<tr>
-                <td>${item.date}</td>
-                <td class="fw-bold">${item.guru}</td>
-                <td><span class="badge bg-secondary">${item.perkara}</span></td>
-                <td>${item.masa || '-'}</td>
-                <td>${item.tempat || '-'}</td>
-                <td>${item.catatan || '-'}</td>
-                <td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData('Keberadaan', ${item.rowIndex})"><i class="fa-solid fa-trash"></i></button></td>
-              </tr>`;
+              let row = document.createElement('tr');
+              row.innerHTML = 
+                '<td>' + item.date + '</td>' +
+                '<td class="fw-bold">' + item.guru + '</td>' +
+                '<td><span class="badge bg-secondary">' + item.perkara + '</span></td>' +
+                '<td>' + (item.masa || '-') + '</td>' +
+                '<td>' + (item.tempat || '-') + '</td>' +
+                '<td>' + (item.catatan || '-') + '</td>' +
+                '<td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData(\'Keberadaan\', ' + item.rowIndex + ')"><i class="fa-solid fa-trash"></i></button></td>';
+              rBody.appendChild(row);
             });
           }
         });
@@ -543,19 +544,20 @@ function loadWeeklyReport() {
           let aBody = document.getElementById('weeklyAktivitiTableBody');
           aBody.innerHTML = '';
           if (!data || data.length === 0) {
-            aBody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted">Tiada rekod aktiviti mingguan.</td></tr>`;
+            aBody.innerHTML = '<tr><td colspan="8" class="text-center py-4 text-muted">Tiada rekod aktiviti mingguan.</td></tr>';
           } else {
             data.forEach(item => {
-              aBody.innerHTML += `<tr>
-                <td>${item.date}</td>
-                <td>${item.masa || '-'}</td>
-                <td class="fw-bold">${item.aktiviti}</td>
-                <td>${item.tempat || '-'}</td>
-                <td>${item.unit || '-'}</td>
-                <td>${item.pic || '-'}</td>
-                <td>${item.catatan || '-'}</td>
-                <td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData('Aktiviti', ${item.rowIndex})"><i class="fa-solid fa-trash"></i></button></td>
-              </tr>`;
+              let row = document.createElement('tr');
+              row.innerHTML = 
+                '<td>' + item.date + '</td>' +
+                '<td>' + (item.masa || '-') + '</td>' +
+                '<td class="fw-bold">' + item.aktiviti + '</td>' +
+                '<td>' + (item.tempat || '-') + '</td>' +
+                '<td>' + (item.unit || '-') + '</td>' +
+                '<td>' + (item.pic || '-') + '</td>' +
+                '<td>' + (item.catatan || '-') + '</td>' +
+                '<td class="text-end"><button class="btn btn-sm btn-outline-danger" onclick="deleteRecordData(\'Aktiviti\', ' + item.rowIndex + ')"><i class="fa-solid fa-trash"></i></button></td>';
+              aBody.appendChild(row);
             });
           }
         });
